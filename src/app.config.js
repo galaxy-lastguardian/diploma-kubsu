@@ -1,1 +1,1 @@
-export const backendURL = process.env.VUE_APP_BACKEND_URL
+export const backendURL = 'http://' + process.env.VUE_APP_BACKEND_URL + '/'

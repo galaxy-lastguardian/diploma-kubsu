@@ -65,12 +65,11 @@ export default {
       User.append("username", this.form.email);
       User.append("password", this.form.password);
       this.showError = false
-
       try {
-          await this.LogIn(User);
-          this.$router.push("/");
-          this.showError = false
-          this.showErrorMessage = false
+        await this.LogIn(User);
+        this.$router.push("/");
+        this.showError = false
+        this.showErrorMessage = false
       } catch (error) {
         this.showErrorMessage = true
         this.showError = true

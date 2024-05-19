@@ -4,6 +4,7 @@ import axios from 'axios'
 import Vuex from 'vuex'
 import auth from './modules/auth'
 import {authHeader} from "@/_helpers/auth-header";
+import {backendURL} from "@/app.config";
 
 Vue.use(Vuex)
 Vue.use(VueAxios, axios)
@@ -36,27 +37,45 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    fetchMovies (context) {
-      this.state.isloading = true
-      this.state.isaborted = false
-      this.state.controller = new AbortController()
-      Vue.axios('movie/', { headers : authHeader(), signal: this.state.controller.signal})
-        .then(response => {
-          context.commit('fetchMovies', response.data)
-          this.state.isloading = false
-        })
-        .catch(error => console.log(error.message));
+    async fetchMovies(context) {
+      this.state.isloading = true;
+      this.state.isaborted = false;
+      this.state.controller = new AbortController();
+      try {
+        const response = await fetch(backendURL + 'movie/', {
+          headers: authHeader(),
+          signal: this.state.controller.signal
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch movies');
+        }
+        const data = await response.json();
+        context.commit('fetchMovies', data);
+        this.state.isloading = false;
+      } catch (error) {
+        console.error('Error during fetching movies:', error.message);
+        this.state.isloading = false;
+      }
     },
-    fetchMovie (context, id) {
-      this.state.isloading = true
-      this.state.isaborted = false
-      this.state.controller = new AbortController()
-      Vue.axios("movie/" + id, { signal: this.state.controller.signal})
-        .then(response => {
-          context.commit('fetchMovie', response.data)
-          this.state.isloading = false
-        })
-        .catch(error => console.log(error.message));
+    async fetchMovie(context, id) {
+      this.state.isloading = true;
+      this.state.isaborted = false;
+      this.state.controller = new AbortController();
+      try {
+        const response = await fetch(backendURL + "movie/" + id, {
+          signal: this.state.controller.signal
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch movie');
+        }
+        const data = await response.json();
+        context.commit('fetchMovie', data);
+        this.state.isloading = false;
+      } catch (error) {
+        console.error('Error during fetching movie:', error.message);
+        this.state.isloading = false;
+      }
     },
     addMovie (context, movie) {
       let newArticle = {
@@ -73,19 +92,6 @@ export default new Vuex.Store({
     changeFormDialogVisibillity (context, visibillity) {
       context.commit('changeFormDialogVisibillity', visibillity)
     },
-    changeArticlePublished (context, id) {
-      this.state.articles.forEach((article, index) => {
-        if (id === article.id) {
-          let ispublished = article.isPublished
-          if (ispublished === true) {
-            context.commit('changeArticlePublished', { index:index, ispublished:false })
-          } else {
-            context.commit('changeArticlePublished', { index:index, ispublished:true })
-          }
-          return false
-        }
-      });
-    }
   },
   modules: {
     auth

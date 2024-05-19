@@ -6,12 +6,12 @@ import {router} from './router'
 import store from './store/'
 import vuetify from './plugins/vuetify'
 import axios from "axios";
-import { backendURL } from '@/app.config'
+import {backendURL} from "@/app.config";
 
 Vue.config.productionTip = false
 axios.defaults.withCredentials = true
-// backend URL
 axios.defaults.baseURL=backendURL
+
 axios.interceptors.response.use(undefined, function (error) {
   if (error) {
     const originalRequest = error.config;
