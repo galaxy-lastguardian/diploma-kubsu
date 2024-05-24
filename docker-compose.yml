@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+    frontent-vue:
+        image: accenmagorgopella/frontend_vue
+        ports:
+            - 8080:80
+        environment:
+          - BACKEND_URL=192.168.1.134:8000
+        depends_on:
+            - backend-fastapi
+
+    backend-fastapi:
+        image: accenmagorgopella/backend_fastapi
+        ports:
+            - 8000:8000
