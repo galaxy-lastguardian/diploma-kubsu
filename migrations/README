@@ -1,0 +1,7 @@
+Generic single-database configuration.
+
+to create new migration use:
+alembic revision --autogenerate -m 'initial'
+
+to upgrade db use:
+alembic upgrade head
