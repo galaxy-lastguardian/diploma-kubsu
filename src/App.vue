@@ -18,13 +18,6 @@ import ContentBlock from "@/components/ContentBlock.vue";
 export default {
   name: 'App',
   components: {ContentBlock, AppFooter, AppBar},
-
-  data: () => ({
-    //
-  }),
-  computed : {
-      isLoggedIn : function(){ return this.$store.getters.isAuthenticated}
-    },
 };
 </script>
 

@@ -8,7 +8,7 @@
       <v-container class="px-5">
         <v-row>
           <div class="d-flex align-center">
-            <strong class="mr-2">ФИЛЬМОХРАНИЛКА</strong>
+            <strong class="mr-2">Управление пользователями</strong>
           </div>
           <v-spacer></v-spacer>
           <v-menu offset-y>
@@ -29,6 +29,11 @@
                 <v-list-item-title>Главная</v-list-item-title>
               </v-list-item>
               <span v-if="isLoggedIn">
+                <v-list-item
+                  to="/movies"
+                >
+                  <v-list-item-title>Фильмы</v-list-item-title>
+                </v-list-item>
                 <v-list-item
                   @click="logout"
                 >

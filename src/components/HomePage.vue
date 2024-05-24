@@ -2,7 +2,7 @@
     <div class="">
       <div class="authorized-only" v-if="isLoggedIn">
         <PageLoader/>
-        <MovieList/>
+        <UsersPage/>
       </div>
       <div v-else class="non-authorized">
         <GuestPage/>
@@ -11,15 +11,16 @@
 </template>
 
 <script>
-import MovieList from './MovieList.vue'
 import PageLoader from './PageLoader.vue'
 import GuestPage from "@/components/GuestPage.vue";
+import UsersPage from "@/components/UsersPage.vue";
 
 export default {
   name: 'HomePage',
   components: {
+    UsersPage,
     GuestPage,
-    MovieList, PageLoader,
+    PageLoader,
   },
   computed : {
       isLoggedIn : function(){ return this.$store.getters.isAuthenticated}

@@ -3,6 +3,7 @@ import VueAxios from 'vue-axios'
 import axios from 'axios'
 import Vuex from 'vuex'
 import auth from './modules/auth'
+import users from './modules/users'
 import {authHeader} from "@/_helpers/auth-header";
 import {backendURL} from "@/app.config";
 
@@ -18,7 +19,6 @@ export default new Vuex.Store({
     formDialogIsVisible: false,
     controller: new AbortController()
   },
-  getters: {  },
   mutations: {
     fetchMovies (state, movies) {
       state.movies = movies
@@ -26,15 +26,9 @@ export default new Vuex.Store({
     fetchMovie (state, movie) {
       state.currentMovie = movie
     },
-    addArticle (state, article) {
-      state.movies.push(article)
-    },
     changeFormDialogVisibillity (state, visibillity) {
       state.formDialogIsVisible = visibillity
     },
-    changeArticlePublished (state, article) {
-      state.movies[article.index].isPublished = article.ispublished
-    }
   },
   actions: {
     async fetchMovies(context) {
@@ -77,13 +71,6 @@ export default new Vuex.Store({
         this.state.isloading = false;
       }
     },
-    addMovie (context, movie) {
-      let newArticle = {
-        id: this.state.movies.length + 1,
-        ...movie
-      }
-      context.commit('addArticle', newArticle)
-    },
     abortFetching () {
       this.state.controller.abort()
       console.log('aborted abortFetching()')
@@ -94,6 +81,7 @@ export default new Vuex.Store({
     },
   },
   modules: {
-    auth
+    auth,
+    users,
   }
 })

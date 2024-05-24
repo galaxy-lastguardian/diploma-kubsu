@@ -11,7 +11,10 @@ import {backendURL} from "@/app.config";
 Vue.config.productionTip = false
 axios.defaults.withCredentials = true
 axios.defaults.baseURL=backendURL
-
+// проверка токена и установка store.state.user при инициализации
+if (JSON.parse(localStorage.getItem('user'))) {
+  store.dispatch('SetUserFromToken');
+}
 axios.interceptors.response.use(undefined, function (error) {
   if (error) {
     const originalRequest = error.config;
